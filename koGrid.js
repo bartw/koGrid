@@ -12,7 +12,12 @@ Element.prototype.createKoGrid = function(parameterObject) {
             htmlString += createHeaderRow(parameterObject.data, parameterObject.columns);
 
             //Add content
-            htmlString += createContentTemplate(parameterObject.data, parameterObject.columns);
+            var allowDelete = true;
+            if (parameterObject.hasOwnProperty("delete") && parameterObject.delete == false) {
+                allowDelete = false;
+            }
+
+            htmlString += createContentTemplate(parameterObject.data, parameterObject.columns, allowDelete);
 
             htmlString += '</tbody></table>';
         }
@@ -47,7 +52,7 @@ function createHeaderRow(data, columns) {
     return headerRow;
 }
 
-function createContentTemplate(data, columns) {
+function createContentTemplate(data, columns, allowDelete) {
     var contentTemplate = "";
 
     contentTemplate += "<!-- ko foreach: " + data + " -->";
@@ -64,9 +69,11 @@ function createContentTemplate(data, columns) {
                 contentTemplate += '<td><input data-bind="' + column.binding + ': ' + column.prop + '" /></td>';
             } else {
                 contentTemplate += '<td><input data-bind="value: ' + column.prop + '" /></td>';
-
             }
         }
+    }
+    if (allowDelete) {
+        contentTemplate += '<td><a data-bind="click: koGridDelete.bind($data, $parent[\'' + data + '\'], $index())">Delete</a></td>';
     }
     contentTemplate += "</tr>";
 
@@ -86,4 +93,8 @@ function koGridSort(data, property) {
         this.koGridSortBy.direction("down");
         data.sort(function(left, right) { return left[property]() == right[property]() ? 0 : (left[property]() < right[property]() ? 1 : -1) });
     }
+}
+
+function koGridDelete(data, index) {
+    data.splice(index, 1);
 }
