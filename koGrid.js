@@ -76,7 +76,7 @@ function koGridViewModel(model, parameterObject) {
         var htmlString = "";
 
         //Create table
-        htmlString += '<table><tbody>';
+        htmlString += '<table class="koGrid"><tbody>';
 
         //Add header row
         htmlString += createHeaderRow();
@@ -95,7 +95,7 @@ function koGridViewModel(model, parameterObject) {
     var createHeaderRow = function () {
         var headerRow = "";
 
-        headerRow += "<tr>";
+        headerRow += '<tr class="koGridHeader">';
         for (var i=0; i < columns.length; i++) {
             var column = columns[i];
 
@@ -122,7 +122,7 @@ function koGridViewModel(model, parameterObject) {
 
         contentTemplate += "<!-- ko foreach: " + data + " -->";
 
-        contentTemplate += "<tr>";
+        contentTemplate += '<tr class="koGridContent">';
         for (var i=0; i < columns.length; i++) {
             var column = columns[i];
 
@@ -137,7 +137,7 @@ function koGridViewModel(model, parameterObject) {
             }
         }
         if (allowDelete) {
-            contentTemplate += '<td><a data-bind="click: $parent.' + model + '.delete.bind($data, $parent[\'' + data + '\'], $index())">Delete</a></td>';
+            contentTemplate += '<td class="koGridDelete"><a data-bind="click: $parent.' + model + '.delete.bind($data, $parent[\'' + data + '\'], $index())">Delete</a></td>';
         }
         contentTemplate += "</tr>";
 
@@ -149,14 +149,14 @@ function koGridViewModel(model, parameterObject) {
     var createAddRow = function() {
         var addRow = "";
 
-        addRow += "<tr>";
+        addRow += '<tr class="koGridAdd">';
 
         for (var i=0; i < columns.length; i++) {
             var column = columns[i];
             addRow += '<td><input data-bind="value: ' + model + '.' + column.prop + '" /></td>';
         }
 
-        addRow += '<td><a data-bind="click: ' + model + '.add.bind($data, ' + data + ')">Add</a></td>';
+        addRow += '<td class="koGridAddLink"><a data-bind="click: ' + model + '.add.bind($data, ' + data + ')">Add</a></td>';
 
         addRow += "</tr>";
 
