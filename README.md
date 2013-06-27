@@ -25,3 +25,6 @@ target.createKoGrid({
 });
 
 ```
+
+###jsFiddle
+See koGrid in action on this [Fiddle](http://jsfiddle.net/bartw84/HzgK2/)
