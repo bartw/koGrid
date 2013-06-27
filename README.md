@@ -1,7 +1,7 @@
 # [koGrid](http://github.com/bartw/koGrid)
 
 koGrid is a basic crud grid that can be generated from a [knockoutjs](http://knockoutjs.com/) observable array.
-koGrid is created and maintained by [Bart Wijnants](https://twitter.com/BartWijnants)
+koGrid is created and maintained by [Bart Wijnants](http://beewee.be)
 
 ##Getting Started
 ```javascript
