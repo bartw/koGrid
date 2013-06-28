@@ -4,7 +4,7 @@ Element.prototype.createKoGrid = function (parameterObject) {
         parameterObject.hasOwnProperty("columns")) {
 
         var subModelBase = "koGrid";
-        var suffix = 1
+        var suffix = 1;
 
         while (parameterObject.viewModel.hasOwnProperty(subModelBase + suffix.toString())) {
             suffix = suffix + 1;
@@ -12,16 +12,19 @@ Element.prototype.createKoGrid = function (parameterObject) {
 
         var subModelName = subModelBase + suffix.toString();
 
-        parameterObject.viewModel[subModelName] = new koGridViewModel(subModelName, parameterObject);
+        parameterObject.viewModel[subModelName] = new KoGridViewModel(subModelName, parameterObject);
 
         this.innerHTML = parameterObject.viewModel[subModelName].getHtml();
     } else {
-        throw new koGridException("incomplete parameters");
-        return;
+        if ( window.console && window.console.log ) {
+            // console is available
+            console.log("incomplete parameters");
+        }
+        throw new KoGridException("incomplete parameters");
     }
-}
+};
 
-function koGridViewModel(model, parameterObject) {
+function KoGridViewModel(model, parameterObject) {
     var self = this;
 
     var columns = parameterObject.columns;
@@ -49,11 +52,11 @@ function koGridViewModel(model, parameterObject) {
         }
 
         sortData(data);
-    }
+    };
 
     self.delete = function (data, index) {
         data.splice(index, 1);
-    }
+    };
 
     self.add = function (data) {
         var newRow = new Object();
@@ -70,7 +73,7 @@ function koGridViewModel(model, parameterObject) {
         data.push(newRow);
 
         sortData(data);
-    }
+    };
 
     self.getHtml = function () {
         var htmlString = "";
@@ -90,7 +93,7 @@ function koGridViewModel(model, parameterObject) {
         htmlString += '</tbody></table>';
 
         return htmlString;
-    }
+    };
 
     var createHeaderRow = function () {
         var headerRow = "";
@@ -115,7 +118,7 @@ function koGridViewModel(model, parameterObject) {
         headerRow += "</tr>";
 
         return headerRow;
-    }
+    };
 
     var createContentTemplate = function () {
         var contentTemplate = "";
@@ -144,7 +147,7 @@ function koGridViewModel(model, parameterObject) {
         contentTemplate += "<!-- /ko -->";
 
         return contentTemplate;
-    }
+    };
 
     var createAddRow = function() {
         var addRow = "";
@@ -161,7 +164,7 @@ function koGridViewModel(model, parameterObject) {
         addRow += "</tr>";
 
         return addRow;
-    }
+    };
 
     var sortData = function (data) {
         if (self.sortBy.prop().length > 0 && self.sortBy.direction() != 0) {
@@ -173,10 +176,10 @@ function koGridViewModel(model, parameterObject) {
                 data.sort(function(left, right) { return left[property]() == right[property]() ? 0 : (left[property]() < right[property]() ? 1 : -1) });
             }
         }
-    }
+    };
 }
 
-function koGridException(message) {
+function KoGridException(message) {
     this.message = message;
     this.name = "koGridException";
 }
